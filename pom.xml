@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.abchina</groupId>
+    <artifactId>tt</artifactId>
+    <version>1.0-SNAPSHOT</version>
+
+    <dependencies>
+        <!-- https://mvnrepository.com/artifact/org.apache.httpcomponents/httpclient -->
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
+            <version>4.5.8</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-slf4j-impl -->
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-slf4j-impl</artifactId>
+            <version>2.11.2</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind -->
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>2.9.8</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.dataformat/jackson-dataformat-yaml -->
+        <dependency>
+            <groupId>com.fasterxml.jackson.dataformat</groupId>
+            <artifactId>jackson-dataformat-yaml</artifactId>
+            <version>2.9.8</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/commons-io/commons-io -->
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>2.6</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>3.9</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/io.reactivex.rxjava2/rxjava -->
+        <dependency>
+            <groupId>io.reactivex.rxjava2</groupId>
+            <artifactId>rxjava</artifactId>
+            <version>2.2.8</version>
+        </dependency>
+
+
+        <!-- https://mvnrepository.com/artifact/com.alibaba/fastjson -->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+            <version>1.2.57</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.zaxxer</groupId>
+            <artifactId>HikariCP</artifactId>
+            <version>3.3.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.jooq</groupId>
+            <artifactId>jooq</artifactId>
+            <version>3.11.11</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jooq</groupId>
+            <artifactId>jooq-meta</artifactId>
+            <version>3.11.11</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jooq</groupId>
+            <artifactId>jooq-codegen</artifactId>
+            <version>3.11.11</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-api -->
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <version>5.4.2</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>8.0.16</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+    <plugins>
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-compiler-plugin</artifactId>
+            <version>3.8.0</version>
+            <configuration>
+                <target>1.8</target>
+                <source>1.8</source>
+            </configuration>
+        </plugin>
+
+        <plugin>
+            <!-- Specify the maven code generator plugin -->
+            <!-- Use org.jooq            for the Open Source Edition
+                     org.jooq.pro        for commercial editions,
+                     org.jooq.pro-java-6 for commercial editions with Java 6 support,
+                     org.jooq.trial      for the free trial edition
+
+                 Note: Only the Open Source Edition is hosted on Maven Central.
+                       Import the others manually from your distribution -->
+            <groupId>org.jooq</groupId>
+            <artifactId>jooq-codegen-maven</artifactId>
+            <version>3.11.11</version>
+
+            <executions>
+                <execution>
+                    <id>jooq-codegen</id>
+                    <phase>generate-sources</phase>
+                    <goals>
+                        <goal>generate</goal>
+                    </goals>
+                </execution>
+            </executions>
+            <configuration>
+                <jdbc>
+<!--                    <driver>com.mysql.jdbc.Driver</driver>-->
+                    <driver>com.mysql.cj.jdbc.Driver</driver>
+                    <url>jdbc:mysql://localhost:3306/house?serverTimezone=UTC</url>
+                    <user>sylll</user>
+                    <password>pswd</password>
+                </jdbc>
+                <generator>
+                    <name>org.jooq.codegen.JavaGenerator</name>
+                    <database>
+                        <!-- The database type. The format here is:
+                        org.jooq.meta.[database].[database]Database -->
+                        <name>org.jooq.meta.mysql.MySQLDatabase</name>
+                        <!-- The database schema (or in the absence of schema support, in your RDBMS this
+                        can be the owner, user, database name) to be generated -->
+                        <inputSchema>house</inputSchema>
+                        <!-- All elements that are generated from your schema
+                        (A Java regular expression. Use the pipe to separate several expressions)
+                        Watch out for case-sensitivity. Depending on your database, this might be important! -->
+                        <includes>.*</includes>
+                        <!-- All elements that are excluded from your schema
+                        (A Java regular expression. Use the pipe to separate several expressions).
+                        Excludes match before includes, i.e. excludes have a higher priority -->
+                        <!--            <excludes></excludes>-->
+                    </database>
+                    <target>
+                        <packageName>com.abchina.tt.generated</packageName>
+                        <directory>src/main/java</directory>
+                    </target>
+                    <generate>
+                        <daos>true</daos>
+                    </generate>
+                </generator>
+            </configuration>
+        </plugin>
+    </plugins>
+</build>
+
+
+        </project>
