@@ -25,7 +25,7 @@ public enum Environment {
         RequestConfig requestConfig = RequestConfig.custom()
 //                .setSocketTimeout(2000)
                 .setConnectionRequestTimeout(600000)
-//                .setConnectTimeout(30000)
+                .setConnectTimeout(30000)
                 .build();
         httpClient = HttpClients
                 .custom()

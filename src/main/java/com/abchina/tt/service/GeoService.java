@@ -55,8 +55,13 @@ public class GeoService {
             String body = IOUtils.toString(httpResponse.getEntity().getContent(), Charset.forName("UTF-8"));
             GeoResponse geoResponse = JSON.parseObject(body, GeoResponse.class);
             logger.debug(geoResponse.toString());
-            if (geoResponse.getStatus().equals("0"))
+            if (geoResponse.getStatus().equals("0")) {
+                if (geoResponse.getInfo().equals("DAILY_QUERY_OVER_LIMIT")) {
+                    logger.error("DAILY_QUERY_OVER_LIMIT");
+                    System.exit(0);
+                }
                 return Optional.empty();
+            }
             if (geoResponse.getGeocodes() == null || geoResponse.getGeocodes().isEmpty()) {
                 logger.debug(String.format("empty location: %s", address));
                 String prefix = "上海市";
